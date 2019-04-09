@@ -7,18 +7,9 @@
 
 set -eu
 
-# get ffmpeg
-yum install -y autoconf automake bzip2 freetype-devel gcc gcc-c++ git libtool pkgconfig zlib-devel yasm-devel libtheora-devel libvorbis-devel libX11-devel gtk2-devel
+# Portions which are known to be good are in _good*
 
-pip install pip setuptools -U
-
-# get cmake, must be > 3.7
-yum install -y cmake
-cmake --version
-
-mkdir /tmp/build
 cd /tmp/build
-
 # get opencv
 wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
 unzip opencv-3.4.0.zip
