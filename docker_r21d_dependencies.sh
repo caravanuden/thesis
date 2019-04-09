@@ -1,14 +1,27 @@
 #!/bin/bash
 # installs dependencies for Res(2+1)D - OpenCV, ffmpeg, and Caffe2 based on FB VMZ installation guide
 # used in Dockerfile in /ihome/cara/thesis
-# TODO:
-#		use e.g. /tmp/build as the directory where you clone for building etc
+#  - Uses /tmp/build as the directory where you clone for building etc
+#
 # CVU 2019
 
 set -eu
 
-# Portions which are known to be good are in _good*
+yum install -y epel-release
 
+# get ffmpeg
+yum install -y autoconf automake bzip2 freetype-devel gcc gcc-c++ git libtool pkgconfig zlib-devel yasm-devel libtheora-devel libvorbis-devel libX11-devel gtk2-devel
+# nasm is needed by x264 but needs newer one anyways, so we disable later on but install here just in case
+yum install -y python-pip wget unzip make git curl nasm
+pip install pip setuptools -U
+
+# get cmake, must be > 3.7
+#  yum gives only 2.8.12.2
+# yum install -y cmake
+pip install cmake
+cmake --version
+
+mkdir /tmp/build
 cd /tmp/build
 # get opencv
 wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
@@ -28,7 +41,7 @@ ldconfig
 cd /tmp/build
 git clone http://git.videolan.org/git/x264.git
 cd x264
-./configure --enable-shared --enable-pic
+./configure --enable-shared --enable-pic --disable-asm
 make -j8
 make install
 
@@ -58,18 +71,19 @@ ldconfig
 # get caffe2
 yum install -y protobuf-devel leveldb-devel snappy-devel opencv-devel lmdb-devel python-devel gflags-devel glog-devel kernel-devel
 
-# get cuDNN
-cd /tmp/build
-cp cuda/lib64/* /usr/local/cuda/lib64/
-cp cuda/include/cudnn.h /usr/local/cuda/include/
-export PATH=/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
-# make sure nvcc is runnable
-nvcc --version
+## get cuDNN
+#cd /tmp/build
+## TODO Manually download the tarball
+#cp cuda/lib64/* /usr/local/cuda/lib64/
+#cp cuda/include/cudnn.h /usr/local/cuda/include/
+#export PATH=/usr/local/cuda/bin:$PATH
+#export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+#
+## make sure nvcc is runnable
+#nvcc --version
 
 # python dependencies for caffe2
-pip install lmdb numpy flask future graphviz hypothesis jupyter matplotlib protobuf pydot python-nvd3 pyyaml requests scikit-image scipy six tornado
+pip install lmdb numpy flask future graphviz hypothesis jupyter matplotlib protobuf pydot python-nvd3 pyyaml requests scikit-image scipy six tornado typing
 
 # build caffe2
 cd /tmp/build
@@ -80,8 +94,10 @@ cd pytorch && git submodule update --init
 # after cmake (see below), check the output log, makesure USE_OPENCV: ON and USE_FFMPEG: ON
 mkdir build
 cd build
+#   CMake 3.5 or higher is required.  You are running version 2.8.12.2
+#  yum installed cmake is too old apparently.  pip install installs 3.13.3-cp27-cp27mu-manylinux1_x86_64
 cmake ..
-sudo make -j8 install
+make -j8 install
 
 export PYTHONPATH=$PYTHONPATH:/usr/local/pytorch
 
