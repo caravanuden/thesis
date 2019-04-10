@@ -1,9 +1,9 @@
 # thesis
 
-Code for Cara Van Uden's senior honors thesis in computer science titled "Scene, object, and action representations learned by R(2+1)D video understanding models and the brain."
+Code for Cara Van Uden's senior honors thesis in computer science titled "Modeling scene, object, and action representations learned by R(2+1)D CNN and the brain."
 
 TODO:
-1. Scale and crop Raiders video clips to 112x112 clips needed by 2(2+1)D model (incorporate eye tracking for crop to get salient crop?)
+1. Scale and crop Raiders video clips to 112x112 clips needed by R(2+1)D model (incorporate eye tracking for crop to get salient crop?)
 2. Get singularity/docker working for installing dependencies (opencv, ffmpeg, pytorch) needed by model
 3. Get model trained on SOA dataset, both on full dataset and on S,O,A individually (do steps 5-8 for each of these 4 models)
 4. Figure out correct striding, input length, etc for input video clips and feed into model
