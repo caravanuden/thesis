@@ -74,7 +74,7 @@ nvcc --version
 sudo pip install lmdb numpy flask future graphviz hypothesis jupyter matplotlib protobuf pydot python-nvd3 pyyaml requests scikit-image scipy six tornado
 
 # build caffe2
-cd ~/local
+cd /tmp/build
 git clone --recursive https://github.com/pytorch/pytorch.git
 cd pytorch && git submodule update --init
 
@@ -85,7 +85,7 @@ cd build
 cmake ..
 sudo make -j8 install
 
-export PYTHONPATH=$PYTHONPATH:~/local/pytorch/build
+export PYTHONPATH=$PYTHONPATH:/tmp/build/pytorch/build
 
 # clean up
 rm -rf /tmp/build
