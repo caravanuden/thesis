@@ -5,7 +5,7 @@
 # use the most recent centOS
 FROM centos:latest
 
-COPY docker_r21d_dependencies.sh /tmp/docker_r21d_dependencies.sh
+COPY docker_r21d_dependencies*.sh /tmp/
 RUN bash /tmp/docker_r21d_dependencies.sh
 
 # to confirm installed correctly
