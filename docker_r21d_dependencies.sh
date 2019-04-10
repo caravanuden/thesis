@@ -63,8 +63,9 @@ make -j8
 make install
 
 # make sure pkg config and the linker can see ffmpeg
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+# Just to make sure although this one should already be considered
+export LD_LIBRARY_PATH=/usr/local/lib
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 hash -r
 ldconfig
 
@@ -99,7 +100,7 @@ cd build
 cmake ..
 make -j8 install
 
-export PYTHONPATH=$PYTHONPATH:/usr/local/pytorch
+export PYTHONPATH=/usr/local/pytorch
 
 # clean up
 rm -rf /tmp/build
