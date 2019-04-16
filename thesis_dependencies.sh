@@ -100,6 +100,9 @@ cd build
 cmake ..
 make -j8 install
 
+# Create a bunch of top level directories for bind points
+mkdir -p /ihome /data /backup /zfs /opt
+
 export PYTHONPATH=/usr/local/pytorch
 
 # clean up
