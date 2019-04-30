@@ -14,7 +14,7 @@ python VMZ/tools/extract_features.py \
 --test_data=raiders_db \
 --model_name=r2plus1d --model_depth=34 --clip_length_rgb=32 \
 --batch_size=4 \
---load_model_path=cnn_models/r2.5d_d34_l32_ft_sports1m.pkl \
---output_path=activations/r2.5d_d34_l32_ft_sports1m.pkl \
+--load_model_path=../cnn_models/r2.5d_d34_l32_ft_sports1m.pkl \
+--output_path=../activations/r2.5d_d34_l32_ft_sports1m.pkl \
 --features=softmax,label,video_id \
 --sanity_check=1 --get_video_id=1 --use_local_file=1 --num_labels=400; \
