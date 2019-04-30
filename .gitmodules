@@ -1,0 +1,6 @@
+[submodule "VMZ"]
+ path = VMZ
+ url = https://github.com/facebookresearch/VMZ
+[submodule "ridge"]
+ path = ridge
+ url = https://github.com/caravanuden/ridge
