@@ -22,7 +22,7 @@ RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
            localedef \
            unzip \
     && yum clean packages \
-    && rm -rf /var/cache/yum/* 
+    && rm -rf /var/cache/yum/* \
     && localedef -i en_US -f UTF-8 en_US.UTF-8 \
     && chmod 777 /opt && chmod a+s /opt \
     && mkdir -p /neurodocker \
