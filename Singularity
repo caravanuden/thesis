@@ -6,6 +6,7 @@
 # pull request on our GitHub repository:
 # 
 #     https://github.com/kaczmarj/neurodocker
+# CVU 2019
 
 Bootstrap: docker
 From: centos
