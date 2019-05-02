@@ -3,7 +3,7 @@ import numpy as np
 from mvpa2.suite import h5load
 
 DATA_DIR = '/idata/DBIC/fma/id_studies/home/preprocess/aligned/raiders-32ch/'
-NP_DATA_DIR = '/ihome/cara/cvu_thesis/hyperaligned_raiders_brain_data'
+NP_DATA_DIR = '/ihome/cara/cvu_thesis/hyper_raiders_brain_data/'
 
 subjects = ['sub-rid000001', 'sub-rid000008', 'sub-rid000009', 'sub-rid000012', 'sub-rid000013', \
             'sub-rid000016', 'sub-rid000017', 'sub-rid000018', 'sub-rid000019', 'sub-rid000021', \
