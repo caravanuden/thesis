@@ -84,7 +84,7 @@ yum install -y protobuf-devel leveldb-devel snappy-devel opencv-devel lmdb-devel
 #nvcc --version
 
 # python dependencies for caffe2
-pip install lmdb numpy flask future graphviz hypothesis jupyter matplotlib protobuf pydot python-nvd3 pyyaml requests scikit-image scipy six tornado typing
+pip install lmdb numpy flask future graphviz hypothesis jupyter matplotlib protobuf pydot python-nvd3 pyyaml requests scikit-image scipy six tornado typing pandas
 
 # build caffe2
 cd /tmp/build

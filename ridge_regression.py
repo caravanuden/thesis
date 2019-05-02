@@ -10,14 +10,18 @@ from ridge import bootstrap_ridge
 import sys, os, time, csv, gzip
 
 VIDEO_DATA_DIR = '/ihome/cara/thesis/processed_raiders_videos/'
-RESPONSE_DATA_DIR = '/idata/DBIC/fma/id_studies/home/preprocess/final/raiders-32ch/'
+RESPONSE_DATA_DIR = '/ihome/cara/cvu_thesis/hyperaligned_raiders_brain_data'
 HYPERALIGN_DIR = '/idata/DBIC/fma/id_studies/home/preprocess/aligned/raiders-32ch/'
 RIDGE_RESULTS_DIR = '/ihome/cara/thesis/ridge_results/'
 
-SUBJECTS = ['sub-rid000005','sub-rid000011','sub-rid000014','sub-rid000015','sub-rid000020',\
-            'sub-rid000028','sub-rid000029','sub-rid000033','sub-rid000038','sub-rid000042', 'sub-rid000043']
+NP_DATA_DIR = '/ihome/cara/cvu_thesis/hyperaligned_raiders_brain_data'
+
+SUBJECTS = ['sub-rid000001', 'sub-rid000008', 'sub-rid000009', 'sub-rid000012', 'sub-rid000013', \
+            'sub-rid000016', 'sub-rid000017', 'sub-rid000018', 'sub-rid000019', 'sub-rid000021', \
+            'sub-rid000022', 'sub-rid000024', 'sub-rid000025', 'sub-rid000026', 'sub-rid000027', \
+            'sub-rid000031', 'sub-rid000032', 'sub-rid000036', 'sub-rid000037', 'sub-rid000041']
 HEMIS = ['lh', 'rh']
-RUNS = range(1,9)
+RUNS = ['1-2-3-4', '5-6-7-8']
 
 tr_movie = {1:369, 2:341, 3:372, 4:406}
 tr_fmri = {1:374, 2:346, 3:377, 4:412}
@@ -73,21 +77,6 @@ def get_stim(test_runs):
 
     return train_stim, test_stim
 
-def load_and_normalize_resp(subj, run, hemi):
-    resp = np.load(os.path.join(RESPONSE_DATA_DIR, '{0}/{0}_task-raiders_run-0{1}_{2}_freq32.npy'.format(subj, run, hemi)))
-
-    # unzip hyperalignmemt mapper
-    filename = '{0}_{1}_qhyper-to-raiders-8ch_ico32_z_r20.0_sl-avg_reflection_non-scaling_non-norm-row_runs1-2-3-4.hdf5.gz'.format(subj, hemi, HYPERALIGN_MOVIE_HALF[run])
-    with gzip.open(filename, 'rb') as f:
-        mapper = mv.h5load(os.path.join(HYPERALIGN_DIR, f))
-
-    mv.zscore(resp, chunks_attr=None)
-    test_resp = mapper.forward(resp)
-    resp = resp[:,cortical_vertices[hemi] == 1]
-    mv.zscore(resp, chunks_attr=None)
-
-    return resp
-
 # get the fMRI data
 def get_resp(test_subj, test_run, hemi):
     train_runs = RUNS
@@ -99,7 +88,7 @@ def get_resp(test_subj, test_run, hemi):
     for run in train_runs:
         avg = []
         for subj in train_subj:
-            resp = load_and_normalize_resp(mappers[subj], subj, run, hemi)
+            resp = np.load(os.path.join(RESPONSE_DATA_DIR, '{0}_{1}_runs{2}_hyperalign.npy'.format(subj, hemi, run)))
             avg.append(resp)
 
         avg = np.mean(avg, axis=0)
@@ -107,7 +96,7 @@ def get_resp(test_subj, test_run, hemi):
         print('Shape of resp for run {0}: {1}'.format(run, avg.shape))
         train_resp.append(avg)
 
-    test_resp = load_and_normalize_resp(mappers[test_subj], test_subj, test_run, hemi)
+    test_resp = np.load(os.path.join(RESPONSE_DATA_DIR, '{0}_{1}_runs{2}_hyperalign.npy'.format(subj, hemi, run)))
 
     print('Shape of resp for run {0}: {1}'.format(test_run, test_resp.shape))
 
