@@ -288,71 +288,90 @@ def plot_map():
     # vtk_utils.plot(values_li=[lh, rh], vmin=vmin, vmax=vmax,out_fn='ridge_results/figures/{0}_voxel_assign.png'.format(model_name), cmap='accent')
 
 
-for model_name in ['cornet-z', 'cornet-r', 'cornet-s', 'vgg', 'resnet', 'densenet']:
-# model_name = sys.argv[1]
+# for model_name in ['cornet-z', 'cornet-r', 'cornet-s', 'vgg', 'resnet', 'densenet']:
+# # model_name = sys.argv[1]
+#
+#     for hemi in HEMIS:
+#         corrs_list = []
+#         for run in RUNS_LEN.keys():
+#             print('Model: {2}, run: {0}, hemi: {1}'.format(run, hemi, model_name))
+#             forward_encoding(run, hemi, model_name, layer_names)
+#
+#     for hemi in HEMIS:
+#         for layer in ['all'] + layer_names:
+#         # for layer in ['all']:
+#             corrs_list = []
+#             for run in RUNS_LEN.keys():
+#                 filename = os.path.join(RIDGE_RESULTS_DIR, '{0}/{0}_{1}_run-{2}_{3}_corrs.npy'.format(model_name, layer, run, hemi))
+#                 curr = np.load(filename)
+#                 print(np.min(curr), np.max(curr))
+#                 corrs_list.append(curr)
+#             corrs = np.mean(np.stack(corrs_list),axis=0)
+#             print(np.min(corrs), np.max(corrs))
+#             np.save('/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_{1}_avg_{2}_corrs.npy'.format(model_name, layer, hemi), corrs)
+#             print('Saved avg corrs for layer {0}, hemi {1}'.format(layer, hemi))
+#
+#     for hemi in HEMIS:
+#         corrs_list = []
+#         for layer in layer_names:
+#             print('Model: {0}, hemi: {1}'.format(model_name, hemi))
+#             filename = '/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_{1}_avg_{2}_corrs.npy'.format(model_name, layer, hemi)
+#             corrs_list.append(np.load(filename))
+#         corrs = np.stack(corrs_list)
+#         print(corrs.shape)
+#         maxes = np.argmax(corrs, axis=0)
+#         print(maxes.shape)
+#         np.save('/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_voxel_assign_{1}.npy'.format(model_name, hemi), maxes)
+#
+# print('done!')
 
-    for hemi in HEMIS:
-        corrs_list = []
-        for run in RUNS_LEN.keys():
-            print('Model: {2}, run: {0}, hemi: {1}'.format(run, hemi, model_name))
-            forward_encoding(run, hemi, model_name, layer_names)
-
-    for hemi in HEMIS:
-        for layer in ['all'] + layer_names:
-        # for layer in ['all']:
-            corrs_list = []
-            for run in RUNS_LEN.keys():
-                filename = os.path.join(RIDGE_RESULTS_DIR, '{0}/{0}_{1}_run-{2}_{3}_corrs.npy'.format(model_name, layer, run, hemi))
-                curr = np.load(filename)
-                print(np.min(curr), np.max(curr))
-                corrs_list.append(curr)
-            corrs = np.mean(np.stack(corrs_list),axis=0)
-            print(np.min(corrs), np.max(corrs))
-            np.save('/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_{1}_avg_{2}_corrs.npy'.format(model_name, layer, hemi), corrs)
-            print('Saved avg corrs for layer {0}, hemi {1}'.format(layer, hemi))
-
-    for hemi in HEMIS:
-        corrs_list = []
-        for layer in layer_names:
-            print('Model: {0}, hemi: {1}'.format(model_name, hemi))
-            filename = '/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_{1}_avg_{2}_corrs.npy'.format(model_name, layer, hemi)
-            corrs_list.append(np.load(filename))
-        corrs = np.stack(corrs_list)
-        print(corrs.shape)
-        maxes = np.argmax(corrs, axis=0)
-        print(maxes.shape)
-        np.save('/ihome/cara/cvu_thesis/thesis/ridge_results/{0}/{0}_voxel_assign_{1}.npy'.format(model_name, hemi), maxes)
-
-print('done!')
-
+layer_names = ['block_1', 'block_2', 'block_3', 'block_4']
 # rois = OrderedDict([('V1',[1,2]), ('V2',[3,4]), ('V3',[5,6]), ('V3a',[17]), ('V3b',[16]), ('V4',[7]), ('VO',[8,9]), ('PHC',[10,11]), ('LO',[14,15]), ('MT',[13]), ('VT',[26])])
-# hemispheres = OrderedDict([('lh',np.load('/ihome/cara/cvu_thesis/thesis/surface/fsaverage_lh_mask.npy')), ('rh',np.load('/ihome/cara/cvu_thesis/thesis/surface/fsaverage_rh_mask.npy'))])
-# from scipy.stats import mode
-# def return_rois(brain_data, roi_means, ind):
-#     roi_names = list(rois.keys())
-#
-#     lh_roi = np.load('/ihome/cara/cvu_thesis/fsaverage6/roi_mask_lh.npy')[:10242]
-#     lh_roi = lh_roi[hemispheres['lh'][:10242]]
-#     rh_roi = np.load('/ihome/cara/cvu_thesis/fsaverage6/roi_mask_lh.npy')[:10242]
-#     rh_roi = rh_roi[hemispheres['rh'][:10242]]
-#
-#     roi_mask = np.concatenate([lh_roi, rh_roi])
-#     roi_brain_data = OrderedDict()
-#     print(np.max(brain_data))
-#     roi_corrs = []
-#     # print(np.mean(brain_data), np.std(brain_data))
-#     for i,roi in enumerate(roi_names):
-#         dat = brain_data[np.where(np.isin(roi_mask, rois[roi])),]
-#         if np.max(dat) == np.max(brain_data):
-#             print(roi, np.max(dat))
-#         # roi_corrs.extend(dat.tolist())
-#         # roi_means[i][ind] = np.mean(dat)
-#         # roi_means[i][ind] = mode(dat,axis=1).mode +1
-#
-#     # roi_corrs = [item for sublist in roi_corrs for item in sublist]
-#     # print(np.mean(roi_corrs), np.std(roi_corrs))
-#     # return roi_brain_data
-#
+rois = OrderedDict([('V1',[1,2]), ('V2',[3,4]), ('V3',[5,6]), ('V3a',[17]), ('V3b',[16]), ('V4',[7]), ('LO',[14,15]), ('MT',[13]), ('VT',[26])])
+hemispheres = OrderedDict([('lh',np.load('/ihome/cara/cvu_thesis/thesis/surface/fsaverage_lh_mask.npy')), ('rh',np.load('/ihome/cara/cvu_thesis/thesis/surface/fsaverage_rh_mask.npy'))])
+
+def return_rois(brain_data, roi_data, ind):
+    roi_names = list(rois.keys())
+
+    lh_roi = np.load('/ihome/cara/cvu_thesis/fsaverage6/roi_mask_lh.npy')[:10242]
+    lh_roi = lh_roi[hemispheres['lh'][:10242]]
+    rh_roi = np.load('/ihome/cara/cvu_thesis/fsaverage6/roi_mask_lh.npy')[:10242]
+    rh_roi = rh_roi[hemispheres['rh'][:10242]]
+
+    roi_mask = np.concatenate([lh_roi, rh_roi])
+    roi_brain_data = OrderedDict()
+    roi_corrs = []
+    for i,roi in enumerate(roi_names):
+        dat = brain_data[np.where(np.isin(roi_mask, rois[roi])),]
+        roi_data[i][ind] = np.mean(dat)
+        # roi_data[i][ind] = mode(dat,axis=1).mode +1
+    return roi_data
+
+for model_name in ['cornet-z', 'cornet-r', 'cornet-s', 'vgg', 'resnet', 'densenet']:
+    roi_data = np.zeros((len(rois.keys()), len(layer_names)))
+    ind=0
+    for layer in layer_names:
+        lh = np.load('/ihome/cara/cvu_thesis/old_ridge_results/{0}/{0}_{1}_avg_lh_corrs.npy'.format(model_name, layer))
+        rh = np.load('/ihome/cara/cvu_thesis/old_ridge_results/{0}/{0}_{1}_avg_rh_corrs.npy'.format(model_name, layer))
+        data = np.concatenate([lh,rh])
+        roi_data = return_rois(data, roi_data, ind)
+        ind+=1
+
+    print(model_name, roi_data)
+    print(np.min(roi_data), np.max(roi_data))
+    plt.figure()
+    ax = plt.axes()
+    roi_names = list(rois.keys())
+
+    # name axes with ROIs
+    fe_heatmap = sns.heatmap(roi_data, vmin=0.1, vmax=0.5, cmap = 'magma', xticklabels=layer_names, yticklabels=roi_names, annot=True)
+    ax.set_xlabel('Model Layers')
+    ax.set_ylabel('Brain ROIs')
+    # ax.set_title('Average ridge regression performance by brain ROI')
+    # mean_heatmap.figure.savefig('mean_ridge_roi_model.png')
+    ax.set_title('Forward encoding by brain ROI and model layer ({0})'.format(model_name))
+    fe_heatmap.figure.savefig('fe_perf_roi_layer_{0}.png'.format(model_name))
+
 # model_names = ['cornet-z', 'cornet-s', 'cornet-r', 'vgg', 'resnet', 'densenet']
 # ind=0
 # roi_means = np.zeros((9,6))
@@ -368,7 +387,7 @@ print('done!')
 #
 #     return_rois(data, roi_means, ind)
 #     ind+=1
-#
+
 # import seaborn as sns
 # import matplotlib.pyplot as plt
 # %matplotlib inline

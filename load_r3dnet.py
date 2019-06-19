@@ -2,10 +2,24 @@ from vids.models.resnet_3D import resnet18
 import pickle
 import torch
 
-# pprint([(layer, weights['blobs'][layer].shape) for layer in layer_names if layer.split('_')[1] == '0'])
-with open('cnn_models/r2.5d_d34_l32_ft_sports1m.pkl', 'rb') as fp:
-# with open('/checkpoint/bkorbar/caffe2_models/r3d_d18_l16.pkl', 'rb') as fp:
-    weights = pickle.load(fp, encoding='latin1')
+# layer_names = list(weights['blobs'].keys())
+# conv_layers = [(layer, r2plus1d['blobs'][layer].shape) for layer in layer_names if 'conv'in layer]
+# pprint(conv_layers)
+# bn_layers = [(layer, weights['blobs'][layer].shape) for layer in layer_names if len(layer.split('_'))>2 and layer.split('_')[2] == 'spatbn']
+# bn_layers = [(layer, weights['blobs'][layer].shape) for layer in layer_names if len(layer.split('_'))>2 and layer.split('_')[2] == 'spatbn' and layer.split('_')[-1] == 's']
+
+# [(l, model['blobs'][l].shape) for l in layer_names if l == 'final_avg']
+
+# pprint([(layer, r2plus1d['blobs'][layer].shape) for layer in layer_names if 'conv' in layer])
+# with open('cvu_thesis/cnn_models/r2.5d_d18_l8.pkl', 'rb') as fp:
+
+import pickle
+from pprint import pprint
+with open('r2.5d_d18_l32.pkl', 'rb') as fp:
+    r2plus1d = pickle.load(fp)
+
+layer_names = list(r2plus1d['blobs'].keys())
+conv_layers = [(layer, r2plus1d['blobs'][layer].shape) for layer in layer_names if 'conv' in layer]
 
 def get_blob(weights, name):
     return torch.from_numpy(weights['blobs'][name])

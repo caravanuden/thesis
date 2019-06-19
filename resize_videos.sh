@@ -3,15 +3,15 @@
 # resize FILE video to an OUT_HEIGHT,OUT_WIDTH size video saved in OUT
 # CVU 2019
 
-DATA_DIR="./raiders/stimuli/task002"
+DAT
 
-for i in {1..8}; do
-  FILE="$DATA_DIR/orig/INDIANA_JONES_RAIDERS_LOST_ARK_part_$i.m4v"
-  TMP="$DATA_DIR/scaled/INDIANA_JONES_RAIDERS_LOST_ARK_part_$i.m4v"
-  OUT="$DATA_DIR/scaled_cropped/INDIANA_JONES_RAIDERS_LOST_ARK_part_$i.m4v"
+for i in {1..4}; do
+  FILE="$DATA_DIR/orig/new_part$i.mp4"
+  TMP="$DATA_DIR/scaled/new_part$i.mp4"
+  OUT="$DATA_DIR/scaled_cropped/new_part$i.mp4"
 
-  OUT_WIDTH=112
-  OUT_HEIGHT=112
+  OUT_WIDTH=224
+  OUT_HEIGHT=224
 
   # get the size of input video
   eval $(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width ${FILE})
